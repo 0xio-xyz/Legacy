@@ -74,7 +74,7 @@ within the Chrome Extension Manifest V3 environment.
 
 ------------------------------------------------------------------------
 
-## 🚀 Installation (Developer Mode)
+## Installation (Developer Mode)
 
 Since this project is archived, it is not on the Chrome Web Store. You
 can still run it locally:
