@@ -1,7 +1,7 @@
 # 0xio Legacy Projects
 
-**Repository:** Archive of deprecated 0xio projects
-**Status:** Archived (No longer maintained)
+**Repository:** Archive of deprecated 0xio projects\
+**Status:** Archived (No longer maintained)\
 **License:** MIT
 
 ---
@@ -27,8 +27,8 @@ A non-custodial cryptocurrency wallet browser extension for the Octra blockchain
 - Service Worker architecture with DApp bridge
 - Secure encrypted key-vault storage
 
-**Status:** Archived
-**Last Version:** 1.2.2
+**Status:** Archived\
+**Last Version:** 1.2.2\
 **Platform:** Chrome, Edge, Brave (Chromium-based browsers)
 
 [View Documentation →](./legacy-0xio-extension/README.md)
