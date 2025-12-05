@@ -1,0 +1,127 @@
+/* ============================================
+   Screen layouts and navigation
+   ============================================ */
+.screen {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    backdrop-filter: blur(10px);
+}
+.screen.hidden {
+    display: none;
+}
+#encrypt-balance-screen:not(.hidden) > *,
+#decrypt-balance-screen:not(.hidden) > *,
+#private-send-screen:not(.hidden) > *,
+#claim-transfers-screen:not(.hidden) > *,
+#bulk-send-screen:not(.hidden) > * {
+    opacity: 1 !important;
+    visibility: visible !important;
+    position: relative !important;
+    z-index: 10 !important;
+}
+#encrypt-balance-screen .header,
+#decrypt-balance-screen .header,
+#private-send-screen .header,
+#claim-transfers-screen .header,
+#bulk-send-screen .header,
+#wallet-list-screen .header,
+#create-password-screen .header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    min-height: 56px !important;
+}
+#encrypt-balance-screen .header h2,
+#decrypt-balance-screen .header h2,
+#private-send-screen .header h2,
+#claim-transfers-screen .header h2,
+#bulk-send-screen .header h2,
+#wallet-list-screen .header h2,
+#create-password-screen .header h2 {
+    line-height: 1 !important;
+    font-size: 17px !important;
+    height: 36px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: 1 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+#encrypt-balance-screen .header > *:first-child,
+#decrypt-balance-screen .header > *:first-child,
+#private-send-screen .header > *:first-child,
+#claim-transfers-screen .header > *:first-child,
+#bulk-send-screen .header > *:first-child,
+#wallet-list-screen .header > *:first-child,
+#create-password-screen .header > *:first-child {
+    width: 36px !important;
+    flex: 0 0 auto !important;
+}
+#encrypt-balance-screen .header > *:last-child,
+#decrypt-balance-screen .header > *:last-child,
+#private-send-screen .header > *:last-child,
+#claim-transfers-screen .header > *:last-child,
+#bulk-send-screen .header > *:last-child,
+#wallet-list-screen .header > *:last-child,
+#create-password-screen .header > *:last-child {
+    width: 36px !important;
+    flex: 0 0 auto !important;
+}
+#history-screen .main-content,
+#settings-screen .main-content {
+    padding: var(--space-lg);
+    flex: 1;
+    overflow-y: auto;
+    position: relative;
+    z-index: var(--z-content);
+    scroll-behavior: smooth;
+}
+#transactions-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    min-height: 200px;
+}
+.bulk-help-content {
+    text-align: left;
+    line-height: 1.5;
+    color: var(--text-primary);
+    max-width: 100%;
+}
+.bulk-help-content h3 {
+    margin: 0 0 16px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-align: center;
+}
+.bulk-help-content h4 {
+    margin: 0 0 8px 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+.help-section {
+    margin-bottom: 16px;
+}
+.help-section:last-child {
+    margin-bottom: 0;
+}
+.bulk-help-content ol,
+.bulk-help-content ul {
+    margin: 8px 0 0 20px;
+    padding: 0;
+}
+.bulk-help-content li {
+    margin-bottom: 4px;
+    color: var(--text-primary);
+    font-size: 14px;
+}
+.bulk-help-content li:last-child {
+    margin-bottom: 0;
+}

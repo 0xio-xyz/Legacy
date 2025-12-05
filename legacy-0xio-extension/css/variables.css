@@ -1,0 +1,156 @@
+:root,
+[data-theme="dark"] {
+    --bg-test:radial-gradient(80% 50% at 50% -10%, rgba(226, 232, 240, 0.15), transparent 70%), rgb(0, 0, 0);
+    --glass-bg: rgba(30, 30, 30, 0.7);
+    --glass-bg-strong: rgba(20, 20, 20, 0.9);
+    --glass-bg-subtle: rgba(30, 30, 30, 0.5);
+    --glass-border: rgba(80, 80, 80, 0.4);
+    --glass-border-light: rgba(80, 80, 80, 0.2);
+    --glass-border-medium: rgba(80, 80, 80, 0.3);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+    --glass-shadow-strong: 0 12px 40px rgba(0, 0, 0, 0.9);
+    --primary-gradient: linear-gradient(135deg, #D4AF37 0%, #B8941F 100%);
+    --primary-color: #D4AF37;
+    --primary-hover: #FFD700;
+    --secondary-color: #B8941F;
+    --bg-gradient: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%);
+    --card-gradient: linear-gradient(135deg, rgba(40, 40, 40, 0.5) 0%, rgba(30, 30, 30, 0.3) 100%);
+    --text-primary: #ffffff;
+    --text-secondary: #e0e0e0;
+    --text-muted: #a0a0a0;
+    --text-inverse: #000000;
+    --text-label: #ffffff;
+    --text-secondary-dim: rgba(224, 224, 224, 0.8);
+    --text-muted-dim: rgba(160, 160, 160, 0.7);
+    --text-very-muted: rgba(160, 160, 160, 0.6);
+    --success-color: #22c55e;
+    --success-bg: rgba(34, 197, 94, 0.2);
+    --error-color: #f87171;
+    --error-bg: rgba(248, 113, 113, 0.2);
+    --warning-color: #fbbf24;
+    --warning-bg: rgba(251, 191, 36, 0.2);
+    --dialog-bg: rgba(10, 10, 10, 0.98);
+    --dialog-border: rgba(80, 80, 80, 0.5);
+    --dialog-shadow: 0 20px 40px rgba(0, 0, 0, 0.9);
+    --input-bg: rgba(30, 30, 30, 0.9);
+    --input-border: rgba(80, 80, 80, 0.5);
+    --input-focus-border: rgba(139, 92, 246, 0.8);
+    --button-secondary-bg: rgba(50, 50, 50, 0.6);
+    --button-secondary-border: rgba(80, 80, 80, 0.5);
+    --button-secondary-hover: rgba(60, 60, 60, 0.8);
+    --overlay-bg: rgba(0, 0, 0, 0.85);
+    --bg-overlay-heavy: rgba(0, 0, 0, 0.9);
+    --bg-overlay-medium: rgba(0, 0, 0, 0.7);
+    --bg-overlay-light: rgba(0, 0, 0, 0.3);
+    --accent-gradient: linear-gradient(135deg, rgba(50, 50, 50, 0.5) 0%, rgba(30, 30, 30, 0.3) 100%);
+    --remove-btn-bg: rgba(248, 113, 113, 0.2);
+    --remove-btn-border: rgba(248, 113, 113, 0.4);
+    --qr-bg: rgba(255, 255, 255, 0.9);
+    --warning-box-bg: rgba(255, 152, 0, 0.1);
+    --warning-box-border: rgba(255, 152, 0, 0.3);
+    --code-bg: rgba(0, 0, 0, 0.3);
+    --info-box-bg: rgba(0, 0, 0, 0.2);
+    --space-xs: 3px;
+    --space-sm: 6px;
+    --space-md: 10px;
+    --space-lg: 14px;
+    --space-xl: 18px;
+    --space-2xl: 22px;
+    --space-3xl: 28px;
+    --radius-xs: 3px;
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    --border-radius: 8px; 
+    --font-size-xs: 11px;
+    --font-size-sm: 13px;
+    --font-size-md: 15px;
+    --font-size-lg: 17px;
+    --font-size-xl: 19px;
+    --font-size-2xl: 22px;
+    --font-size-3xl: 26px;
+    --z-base: 1;
+    --z-header: 100;
+    --z-navigation: 200;
+    --z-content: 300;
+    --z-dropdown: 1000;
+    --z-tooltip: 2000;
+    --z-popup: 3000;
+    --z-toast: 4000;
+    --z-overlay: 5000;
+    --z-modal: 6000;
+    --z-loading: 7000;
+    --transition-fast: 0.15s ease;
+    --transition-normal: 0.25s ease;
+    --transition-slow: 0.35s ease;
+}
+@media (prefers-contrast: high) {
+    :root {
+        --glass-bg: rgba(30, 30, 30, 0.9);
+        --glass-bg-strong: rgba(20, 20, 20, 1);
+        --glass-border: rgba(80, 80, 80, 0.6);
+    }
+}
+/* ============================================
+   LIGHT MODE THEME
+   ============================================ */
+[data-theme="light"] {
+    --bg-test: radial-gradient(80% 50% at 50% -10%, rgba(59, 130, 246, 0.08), transparent 70%), rgb(255, 255, 255);
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-bg-strong: rgba(255, 255, 255, 0.95);
+    --glass-bg-subtle: rgba(255, 255, 255, 0.5);
+    --glass-border: rgba(200, 200, 200, 0.4);
+    --glass-border-light: rgba(220, 220, 220, 0.3);
+    --glass-border-medium: rgba(210, 210, 210, 0.35);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    --glass-shadow-strong: 0 12px 40px rgba(0, 0, 0, 0.15);
+    --primary-gradient: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    --primary-color: #3b82f6;
+    --primary-hover: #60a5fa;
+    --secondary-color: #2563eb;
+    --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+    --card-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.8) 100%);
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #64748b;
+    --text-inverse: #ffffff;
+    --text-label: #1e293b;
+    --text-secondary-dim: rgba(71, 85, 105, 0.9);
+    --text-muted-dim: rgba(100, 116, 139, 0.8);
+    --text-very-muted: rgba(148, 163, 184, 0.7);
+    --success-color: #16a34a;
+    --success-bg: rgba(22, 163, 74, 0.1);
+    --error-color: #dc2626;
+    --error-bg: rgba(220, 38, 38, 0.1);
+    --warning-color: #ea580c;
+    --warning-bg: rgba(234, 88, 12, 0.1);
+    --dialog-bg: rgba(255, 255, 255, 0.98);
+    --dialog-border: rgba(200, 200, 200, 0.5);
+    --dialog-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    --input-bg: rgba(255, 255, 255, 0.9);
+    --input-border: rgba(200, 200, 200, 0.5);
+    --input-focus-border: rgba(59, 130, 246, 0.6);
+    --button-secondary-bg: rgba(241, 245, 249, 0.8);
+    --button-secondary-border: rgba(203, 213, 225, 0.6);
+    --button-secondary-hover: rgba(226, 232, 240, 0.9);
+    --overlay-bg: rgba(15, 23, 42, 0.5);
+    --bg-overlay-heavy: rgba(15, 23, 42, 0.7);
+    --bg-overlay-medium: rgba(15, 23, 42, 0.5);
+    --bg-overlay-light: rgba(15, 23, 42, 0.2);
+    --accent-gradient: linear-gradient(135deg, rgba(241, 245, 249, 0.8) 0%, rgba(248, 250, 252, 0.6) 100%);
+    --remove-btn-bg: rgba(220, 38, 38, 0.1);
+    --remove-btn-border: rgba(220, 38, 38, 0.3);
+    --qr-bg: rgba(255, 255, 255, 0.95);
+    --warning-box-bg: rgba(234, 88, 12, 0.08);
+    --warning-box-border: rgba(234, 88, 12, 0.2);
+    --code-bg: rgba(241, 245, 249, 0.8);
+    --info-box-bg: rgba(219, 234, 254, 0.4);
+}
+@media (prefers-reduced-motion: reduce) {
+    :root {
+        --transition-fast: 0.01ms;
+        --transition-normal: 0.01ms;
+        --transition-slow: 0.01ms;
+    }
+}

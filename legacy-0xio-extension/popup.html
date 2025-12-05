@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=400, height=600, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>0xio Wallet</title>
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+        html, body {
+            width: 400px !important;
+            height: 600px !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow: hidden !important;
+            box-sizing: border-box !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="message-container"></div>
+    <div id="app">
+        <div id="main-screen" class="screen">
+            <div class="header">
+                <button id="wallets-btn" class="back-btn" title="Wallets">☰</button>
+                <h1>0xio Wallet</h1>
+                <button id="settings-btn" class="settings-btn" title="Settings">⚙</button>
+            </div>
+            <div class="main-screen">
+                <div class="balance-section">
+                    <div class="balance-amount">
+                        <span id="balance-display">0.00</span>
+                        <button id="refresh-balance-btn" class="refresh-btn" title="Refresh balance">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="23 4 23 10 17 10"></polyline>
+                                <polyline points="1 20 1 14 7 14"></polyline>
+                                <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4-4.64 4.36A9 9 0 0 1 3.51 15"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="private-balance-section" id="private-balance-section">
+                        <div class="private-balance-item">
+                            <span class="private-balance-label">Private:</span>
+                            <span id="private-balance-display">0.00</span>
+                        </div>
+                    </div>
+                    <div class="address-display copyable" id="address-display" title="Left click: Copy • Right click: View in Explorer">
+                        Loading address...
+                    </div>
+                </div>
+                <div class="action-grid">
+                    <button id="send-btn" class="btn btn-primary btn-with-icon">
+                        <img src="icons/send.svg" alt="Send" class="btn-icon">
+                        <span>Send</span>
+                    </button>
+                    <button id="receive-btn" class="btn btn-primary btn-with-icon">
+                        <img src="icons/Receive.svg" alt="Receive" class="btn-icon">
+                        <span>Receive</span>
+                    </button>
+                    <button id="history-btn" class="btn btn-primary btn-with-icon">
+                        <img src="icons/History.svg" alt="History" class="btn-icon">
+                        <span>History</span>
+                    </button>
+                    <button id="bulk-send-btn" class="btn btn-primary btn-with-icon">
+                        <img src="icons/Bulk-send.svg" alt="Bulk Send" class="btn-icon">
+                        <span>Bulk Send</span>
+                    </button>
+                    <button id="swap" class="btn btn-primary btn-with-icon" disabled>
+                    <img src="icons/swap.svg" alt="Swap" class="btn-icon">
+                    <span>Swap</span>
+                    </button>
+                    <button id="bulk-private-send-btn-nav" class="btn btn-primary btn-with-icon">
+                        <img src="icons/Private-Bulk-send.svg" alt="Bulk Private" class="btn-icon">
+                        <span>Bulk Private</span>
+                    </button>
+                    <button id="encrypt-balance-btn" class="btn btn-primary btn-with-icon">
+                        <img src="icons/Encrypt.svg" alt="Encrypt" class="btn-icon">
+                        <span>Encrypt</span>
+                    </button>
+                    <button id="decrypt-balance-btn" class="btn btn-primary btn-with-icon">
+                        <img src="icons/Decrypt.svg" alt="Decrypt" class="btn-icon">
+                        <span>Decrypt</span>
+                    </button>
+                    <button id="private-send-btn" class="btn btn-primary btn-with-icon">
+                        <img src="icons/Private-send.svg" alt="Private Send" class="btn-icon">
+                        <span>Private Send</span>
+                    </button>
+                    <button id="claim-transfers-btn" class="btn btn-primary btn-with-icon">
+                        <img src="icons/Claim.svg" alt="Claim" class="btn-icon">
+                        <span>Claim</span>
+                    </button>
+                    <button id="tasks-btn" class="btn btn-primary btn-with-icon">
+                        <img src="icons/Tasks.svg" alt="Tasks" class="btn-icon">
+                        <span>Tasks</span>
+                    </button>
+                </div>
+                <div class="main-footer">
+                    <a href="https://x.com/nullxgery" target="_blank" class="footer-link">
+                        <span class="footer-text">created by 0xGery</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div id="tasks-screen" class="screen hidden">
+            <div class="header">
+                <button id="tasks-back-btn" class="back-btn" title="Back">←</button>
+                <h1>Tasks</h1>
+                <div class="header-spacer"></div>
+            </div>
+            <div class="tasks-content">
+                <div class="tasks-list">
+                    <div class="task-card" data-task-id="ocs01-test">
+                        <div class="task-header">
+                            <div class="task-info">
+                                <h3 class="task-title">OCS01 Contract Testing</h3>
+                                <p class="task-description">Interactive testing of smart contract methods</p>
+                            </div>
+                            <div class="task-status">
+                                <span class="status-badge status-available">Available</span>
+                            </div>
+                        </div>
+                        <div class="task-details">
+                            <div class="task-stats">
+                                <div class="stat-item">
+                                    <span class="stat-label">Methods:</span>
+                                    <span class="stat-value">14</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Type:</span>
+                                    <span class="stat-value">Smart Contract</span>
+                                </div>
+                            </div>
+                            <div class="task-contract-info">
+                                <p class="contract-address">octBUHw585BrAMPMLQvGuWx4vqEsybYH9N7a3WNj1WBwrDn</p>
+                            </div>
+                            <div class="task-actions">
+                                <button id="start-ocs01-task" class="btn btn-primary task-btn">
+                                    Start Task
+                                </button>
+                                <button id="view-ocs01-info" class="btn task-btn">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="task-card task-card-placeholder">
+                        <div class="task-header">
+                            <div class="task-info">
+                                <h3 class="task-title">More Tasks Coming Soon</h3>
+                                <p class="task-description">Additional testing tasks will be available here</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="first-time-setup" class="screen hidden">
+            <div class="header">
+                <div></div>
+                <h2>Initial Setup</h2>
+                <div></div>
+            </div>
+            <div style="padding: var(--space-lg); display: flex; flex-direction: column; gap: var(--space-lg); flex: 1; overflow-y: auto;">
+                <form id="initial-setup-form" style="display: flex; flex-direction: column; flex: 1;">
+                    <div class="setup-section" style="display:flex; flex-direction: column; gap: var(--space-md);">
+                        <div class="form-group">
+                            <label class="form-label">Wallet Type</label>
+                            <div style="display: flex; gap: var(--space-md);">
+                                <label style="display: flex; align-items: center; gap: var(--space-sm); cursor: pointer; flex: 1; padding: var(--space-md); border: 1px solid var(--glass-border-light); border-radius: var(--border-radius); background: var(--glass-bg-subtle);">
+                                    <input type="radio" name="wallet-type" value="generate" id="type-generate" checked style="accent-color: var(--accent-primary);">
+                                    <span style="color: var(--text-primary);">Generate New</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: var(--space-sm); cursor: pointer; flex: 1; padding: var(--space-md); border: 1px solid var(--glass-border-light); border-radius: var(--border-radius); background: var(--glass-bg-subtle);">
+                                    <input type="radio" name="wallet-type" value="import" id="type-import" style="accent-color: var(--accent-primary);">
+                                    <span style="color: var(--text-primary);">Import Existing</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="initial-wallet-name" class="form-label">Wallet Name</label>
+                            <input type="text" id="initial-wallet-name" name="wallet-name" class="form-input" placeholder="Enter wallet name" value="Main Wallet" required>
+                        </div>
+                        <div id="import-fields" class="import-fields" style="display: none;">
+                            <div class="form-group" style="display:flex; flex-direction: column; gap: var(--space-md);">
+                                <label for="initial-private-key" class="form-label">Private Key (Base64)</label>
+                                <textarea id="initial-private-key" name="private-key" class="form-textarea" placeholder="Enter your private key in base64 format" rows="3"></textarea>
+                            </div>
+                            <div class="form-group" style="display:flex; flex-direction: column; gap: var(--space-md);">
+                                <label for="initial-wallet-address" class="form-label">Wallet Address</label>
+                                <input type="text" id="initial-wallet-address" name="wallet-address" class="form-input" placeholder="Enter wallet address (oct...)">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="setup-section" style="display:flex; flex-direction: column; gap: var(--space-md);">
+                        <div class="form-group">
+                            <label for="initial-password" class="form-label">Password <span style="opacity: 0.6; font-weight: normal;">(Optional)</span></label>
+                            <input type="password" id="initial-password" name="password" class="form-input" placeholder="Leave empty to skip">
+                            <div id="initial-strength-bar" class="strength-bar"></div>
+                            <div id="initial-strength-text" class="strength-text"></div>
+                        </div>
+                        <div class="form-group" id="initial-confirm-password-group" style="display: none;">
+                            <label for="initial-confirm-password" class="form-label">Confirm Password</label>
+                            <input type="password" id="initial-confirm-password" name="confirm-password" class="form-input" placeholder="Confirm your password">
+                        </div>
+                    </div>
+                    <div style="margin-top: auto; padding-top: var(--space-lg);">
+                        <button type="submit" class="submit-btn btn" style="width: 100%;">
+                            <span id="submit-button-text">Create Wallet</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="wallet-list-screen" class="screen hidden">
+            <div class="header">
+                <button id="wallet-list-back" class="back-btn" title="Back">←</button>
+                <h2>Wallet List</h2>
+                <button id="add-wallet-btn" class="back-btn" title="Add Wallet">+</button>
+            </div>
+            <div class="wallet-list-content">
+                <div id="wallet-list-content" class="wallet-cards-container">
+                </div>
+            </div>
+        </div>
+        <div id="add-wallet-screen" class="screen hidden">
+            <div class="header">
+                <button id="add-wallet-back" class="back-btn" title="Back">←</button>
+                <h2>Add Wallet</h2>
+                <div></div>
+                </div>
+            <div class="add-wallet-options">
+                <div class="add-wallet-option" id="generate-wallet-option">
+                    <div class="option-title">
+                        Generate New Wallet
+                    </div>
+                    <div class="option-description">
+                        Create a new wallet with a secure randomly generated private key.
+                    </div>
+                </div>
+                <div class="add-wallet-option" id="import-wallet-option">
+                    <div class="option-title">
+                        Import Wallet
+                    </div>
+                    <div class="option-description">
+                        Import an existing wallet using your private key and address.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="generate-wallet-screen" class="screen hidden">
+            <div class="header">
+                <button id="generate-wallet-back" class="back-btn" title="Back">←</button>
+                <h2>Generate Wallet</h2>
+                <div></div>
+            </div>
+            <div style="padding: var(--space-lg); display: flex; flex-direction: column; gap: var(--space-lg); flex: 1;">
+                <form id="generate-wallet-form" style="display: flex; flex-direction: column; gap: var(--space-lg); flex: 1;">
+                    <div class="form-group">
+                        <label for="wallet-name" class="form-label">Wallet Name</label>
+                        <input type="text" id="wallet-name" name="wallet-name" class="form-input" placeholder="Enter wallet name" required>
+                    </div>
+                    <div style="text-align: center; color: var(--text-secondary-dim); font-size: var(--font-size-sm); line-height: 1.5; margin: var(--space-lg) 0;">
+                        Your wallet will be generated with a secure randomly generated private key and mnemonic phrase. Make sure to save backup information.
+                    </div>
+                    <div style="margin-top: auto;">
+                        <button type="submit" class="submit-btn btn" style="width: 100%;">
+                            Generate Wallet
+                </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="import-wallet-screen" class="screen hidden">
+            <div class="header">
+                <button id="import-wallet-back" class="back-btn" title="Back">←</button>
+                <h2>Import Wallet</h2>
+                <div></div>
+            </div>
+            <div style="padding: var(--space-lg); display: flex; flex-direction: column; gap: var(--space-lg); flex: 1;">
+                <form id="import-wallet-form" style="display: flex; flex-direction: column; gap: var(--space-lg); flex: 1;">
+                <div class="form-group">
+                        <label for="import-wallet-name" class="form-label">Wallet Name</label>
+                        <input type="text" id="import-wallet-name" name="wallet-name" class="form-input" placeholder="Enter wallet name" required>
+                </div>
+                <div class="form-group">
+                        <label for="private-key" class="form-label">Private Key (Base64)</label>
+                        <textarea id="private-key" name="private-key" class="form-textarea" placeholder="Enter your private key in base64 format" required></textarea>
+                </div>
+                <div class="form-group">
+                        <label for="wallet-address" class="form-label">Wallet Address</label>
+                        <input type="text" id="wallet-address" name="wallet-address" class="form-input" placeholder="Enter wallet address" required>
+            </div>
+                    <div style="text-align: center; color: var(--text-secondary-dim); font-size: var(--font-size-sm); line-height: 1.5; margin: var(--space-lg) 0;">
+                        Import your existing wallet using the private key and address. Both values will be trusted without validation.
+                    </div>
+                    <div style="margin-top: auto;">
+                        <button type="submit" class="submit-btn btn" style="width: 100%;">
+                            Import Wallet
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="send-screen" class="screen hidden">
+            <div class="header">
+                <button id="send-back" class="back-btn" title="Back">←</button>
+                <h2>Send OCTRA</h2>
+                <div></div>
+            </div>
+            <div style="padding: var(--space-lg); display: flex; flex-direction: column; gap: var(--space-lg); flex: 1;">
+                <form id="send-form" style="display: flex; flex-direction: column; gap: var(--space-lg); flex: 1;">
+                    <div class="balance-section-snd" style="text-align: center; padding: var(--space-lg);">
+                        <div style="color: var(--text-secondary-dim); font-size: var(--font-size-sm); margin-bottom: var(--space-sm);">
+                            Available Balance
+                    </div>
+                <div style="color: var(--text-primary); font-size: var(--font-size-lg); font-weight: 600;">
+                            <span id="send-balance-display">Loading...</span> OCTRA
+                </div>
+                </div>
+                    <div class="form-group">
+                        <label for="send-address" class="form-label">Recipient Address</label>
+                        <input type="text" id="send-address" class="form-input" placeholder="Enter recipient address" required>
+                </div>
+            <div class="form-group">
+                        <label for="send-amount" class="form-label">Amount</label>
+                        <input type="text" id="send-amount" class="form-input" placeholder="0.00" required>
+            </div>
+                    <div style="margin-top: auto;">
+                        <button type="submit" id="send-confirm-btn" class="submit-btn btn" style="width: 100%;">
+                            Send Transaction
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="receive-screen" class="screen hidden">
+            <div class="header">
+                <button id="receive-back" class="back-btn" title="Back">←</button>
+                <h2>Receive OCTRA</h2>
+                <div></div>
+            </div>
+            <div style="padding: var(--space-lg); display: flex; flex-direction: column; gap: var(--space-xl); flex: 1; align-items: center; justify-content: center;">
+                <div class="balance-section" style="text-align: center; width: 100%;">
+                    <div style="margin-bottom: var(--space-lg);">
+                        <div id="qr-code-container" style="width: 200px; height: 200px; background: var(--qr-bg); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-lg);">
+                            <div style="color: var(--text-secondary); font-size: var(--font-size-sm);">QR Code</div>
+                        </div>
+                        <div style="color: var(--text-secondary-dim); font-size: var(--font-size-sm); margin-bottom: var(--space-sm);">
+                            Your Wallet Address
+                        </div>
+                        <div class="address-display copyable" id="receive-address-display" title="Left click: Copy • Right click: View in Explorer">
+                            Loading address...
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: center; color: var(--text-muted-dim); font-size: var(--font-size-sm); line-height: 1.5;">
+                    Share this address to receive OCTRA tokens.
+                </div>
+            </div>
+        </div>
+        <div id="history-screen" class="screen hidden">
+            <div class="header">
+                <button id="history-back" class="back-btn" title="Back">←</button>
+                <h2>Transaction History</h2>
+                <button id="history-refresh-btn" class="refresh-btn" title="Refresh transactions">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="23 4 23 10 17 10"></polyline>
+                        <polyline points="1 20 1 14 7 14"></polyline>
+                        <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4-4.64 4.36A9 9 0 0 1 3.51 15"></path>
+                    </svg>
+                </button>
+            </div>
+            <div style="padding: var(--space-lg); flex: 1; overflow-y: auto;">
+                <div id="transactions-list">
+                </div>
+            </div>
+        </div>
+        <div id="bulk-send-screen" class="screen hidden">
+            <div class="header">
+                <button id="bulk-send-back" class="back-btn" title="Back">←</button>
+                <h2>Bulk Send</h2>
+                <button id="bulk-send-help" class="refresh-btn" title="Help">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                </button>
+            </div>
+            <div style="padding: var(--space-md) var(--space-lg) var(--space-lg);display: flex;flex-direction: column;gap: var(--space-xl);flex: 1;">
+                <div class="balance-info-card">
+                    <div class="balance-row">
+                        <div class="balance-col">
+                            <span class="balance-label">Available</span>
+                            <span id="bulk-send-balance" class="balance-value">Loading...</span>
+                        </div>
+                        <div class="balance-col">
+                            <span class="balance-label">Total</span>
+                            <span id="bulk-total-amount" class="balance-value">0.00 OCT</span>
+                        </div>
+                        <div class="balance-col">
+                            <span class="balance-label">Recipients</span>
+                            <span id="bulk-recipients-count" class="balance-value">0</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="add-recipient-section">
+                    <label class="form-label">Add Recipient</label>
+                    <div class="add-recipient-form">
+                        <input
+                            type="text"
+                            id="bulk-recipient-address"
+                            class="form-input"
+                            placeholder="Recipient address (oct...)">
+                        <input
+                            type="number"
+                            id="bulk-recipient-amount"
+                            class="form-input"
+                            placeholder="Amount"
+                            step="0.000001">
+                        <button id="add-recipient-btn" type="button" class="btn btn-primary">+</button>
+                    </div>
+                </div>
+                <div class="recipients-section">
+                    <div class="recipients-header">
+                        <span class="form-label">Recipients (<span id="recipient-count">0</span>)</span>
+                        <button id="clear-all-btn" class="btn-text" type="button">Clear All</button>
+                    </div>
+                    <div id="recipients-list" class="recipients-list">
+                        <div id="empty-recipients" class="empty-recipients">
+                            No recipients added yet
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: auto;">
+                    <button id="send-bulk-btn" class="submit-btn btn" style="width: 100%;">
+                        Send to All Recipients
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="bulk-private-send-screen" class="screen hidden">
+            <div class="header">
+                <button id="bulk-private-send-back" class="back-btn" title="Back">←</button>
+                <h2>Bulk Private Send</h2>
+                <button id="bulk-private-send-help" class="refresh-btn" title="Help">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                </button>
+            </div>
+            <div style="padding: var(--space-md) var(--space-lg) var(--space-lg); display: flex; flex-direction: column; gap: var(--space-xl); flex: 1;">
+                <div class="balance-info-card">
+                    <div class="balance-row">
+                        <div class="balance-col">
+                            <span class="balance-label">Encrypted</span>
+                            <span id="bulk-private-encrypted-balance" class="balance-value">Loading...</span>
+                        </div>
+                        <div class="balance-col">
+                            <span class="balance-label">Total</span>
+                            <span id="bulk-private-total-amount" class="balance-value">0.00 OCT</span>
+                        </div>
+                        <div class="balance-col">
+                            <span class="balance-label">Recipients</span>
+                            <span id="bulk-private-recipient-count" class="balance-value">0</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="warning-box" style="background: var(--warning-box-bg); border: 1px solid var(--warning-box-border); padding: var(--space-sm) var(--space-md); border-radius: var(--radius-md); color: var(--warning-color); font-size: var(--font-size-xs);">
+                    <strong>⚠️ Private Transfers:</strong> Recipients must have sent at least one transaction to receive private transfers.
+                </div>
+                <div class="add-recipient-section">
+                    <label class="form-label">Add Recipient</label>
+                    <div class="add-recipient-form">
+                        <input
+                            type="text"
+                            id="bulk-private-recipient-address"
+                            class="form-input"
+                            placeholder="Recipient address (oct...)">
+                        <input
+                            type="number"
+                            id="bulk-private-recipient-amount"
+                            class="form-input"
+                            placeholder="Amount"
+                            step="0.000001">
+                        <button id="add-private-recipient-btn" type="button" class="btn btn-primary">+</button>
+                    </div>
+                </div>
+                <div class="recipients-section">
+                    <div class="recipients-header">
+                        <span class="form-label">Recipients (<span id="private-recipient-count">0</span>)</span>
+                        <button id="clear-all-private-btn" class="btn-text" type="button">Clear All</button>
+                    </div>
+                    <div id="private-recipients-list" class="recipients-list">
+                        <div id="empty-private-recipients" class="empty-recipients">
+                            No recipients added yet
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: auto;">
+                    <button id="send-bulk-private-btn" class="submit-btn btn" style="width: 100%;">
+                        Send to All Recipients
+                    </button>
+                </div>
+            </div>
+        </div>
+    <div id="encrypt-balance-screen" class="screen hidden">
+        <div class="header">
+            <button id="encrypt-balance-back" class="back-btn" title="Back">←</button>
+            <h2>Encrypt Balance</h2>
+            <div></div>
+        </div>
+        <div style="padding: var(--space-md) var(--space-lg) var(--space-lg); display: flex; flex-direction: column; gap: var(--space-xl); flex: 1;">
+            <div class="balance-info-card">
+                <div class="balance-row">
+                    <div class="balance-col">
+                        <span class="balance-label">Public</span>
+                        <span id="encrypt-public-balance" class="balance-value">Loading...</span>
+                    </div>
+                    <div class="balance-col">
+                        <span class="balance-label">Private</span>
+                        <span id="encrypt-private-balance" class="balance-value">Loading...</span>
+                    </div>
+                    <div class="balance-col">
+                        <span class="balance-label">Total</span>
+                        <span id="encrypt-total-balance" class="balance-value">Loading...</span>
+                    </div>
+                </div>
+            </div>
+            <form id="encrypt-balance-form" style="display: flex; flex-direction: column; gap: var(--space-md); flex: 1;">
+                <div class="form-group">
+                    <label for="encrypt-amount" class="form-label">Amount to Encrypt</label>
+                    <input type="text" id="encrypt-amount" class="form-input" placeholder="0.00" required>
+                </div>
+                <div style="margin-top: auto;">
+                    <button type="submit" id="encrypt-balance-confirm-btn" class="submit-btn btn" style="width: 100%;">
+                        Encrypt Balance
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="decrypt-balance-screen" class="screen hidden">
+        <div class="header">
+            <button id="decrypt-balance-back" class="back-btn" title="Back">←</button>
+            <h2>Decrypt Balance</h2>
+            <div></div>
+        </div>
+        <div style="padding: var(--space-md) var(--space-lg) var(--space-lg); display: flex; flex-direction: column; gap: var(--space-xl); flex: 1;">
+            <div class="balance-info-card">
+                <div class="balance-row">
+                    <div class="balance-col">
+                        <span class="balance-label">Public</span>
+                        <span id="decrypt-public-balance" class="balance-value">Loading...</span>
+                    </div>
+                    <div class="balance-col">
+                        <span class="balance-label">Private</span>
+                        <span id="decrypt-private-balance" class="balance-value">Loading...</span>
+                    </div>
+                    <div class="balance-col">
+                        <span class="balance-label">Total</span>
+                        <span id="decrypt-total-balance" class="balance-value">Loading...</span>
+                    </div>
+                </div>
+            </div>
+            <form id="decrypt-balance-form" style="display: flex; flex-direction: column; gap: var(--space-md); flex: 1;">
+                <div class="form-group">
+                    <label for="decrypt-amount" class="form-label">Amount to Decrypt</label>
+                    <input type="text" id="decrypt-amount" class="form-input" placeholder="0.00" required>
+                </div>
+                <div style="margin-top: auto;">
+                    <button type="submit" id="decrypt-balance-confirm-btn" class="submit-btn btn" style="width: 100%;">
+                        Decrypt Balance
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="private-send-screen" class="screen hidden">
+        <div class="header">
+            <button id="private-send-back" class="back-btn" title="Back">←</button>
+            <h2>Private Send</h2>
+            <div></div>
+        </div>
+        <div style="padding: var(--space-md) var(--space-lg) var(--space-lg); display: flex; flex-direction: column; gap: var(--space-xl); flex: 1;">
+            <div class="balance-info-card">
+                <div class="balance-row">
+                    <div class="balance-col">
+                        <span class="balance-label">Public</span>
+                        <span id="private-send-public-balance" class="balance-value">Loading...</span>
+                    </div>
+                    <div class="balance-col">
+                        <span class="balance-label">Private</span>
+                        <span id="private-send-balance" class="balance-value">Loading...</span>
+                    </div>
+                    <div class="balance-col">
+                        <span class="balance-label">Total</span>
+                        <span id="private-send-total-balance" class="balance-value">Loading...</span>
+                    </div>
+                </div>
+            </div>
+            <form id="private-send-form" style="display: flex; flex-direction: column; gap: var(--space-md); flex: 1;">
+                <div class="form-group">
+                    <label for="private-recipient" class="form-label">Recipient Address</label>
+                    <input type="text" id="private-recipient" class="form-input" placeholder="oct..." required>
+                </div>
+                <div class="form-group">
+                    <label for="private-amount" class="form-label">Amount</label>
+                    <input type="text" id="private-amount" class="form-input" placeholder="0.00" required>
+                </div>
+                <div style="margin-top: auto;">
+                    <button type="submit" id="private-send-confirm-btn" class="submit-btn btn" style="width: 100%;">
+                        Send Privately
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="claim-transfers-screen" class="screen hidden">
+        <div class="header">
+            <button id="claim-transfers-back" class="back-btn" title="Back">←</button>
+            <h2>Claim Private Transfers</h2>
+            <div></div>
+        </div>
+        <div style="padding: var(--space-lg); display: flex; flex-direction: column; gap: var(--space-lg); flex: 1;">
+            <div id="pending-transfers-list" class="transfer-list">
+            </div>
+            <div id="no-transfers-message" class="empty-state hidden">
+                <div class="empty-text">No pending transfers</div>
+            </div>
+            <div id="claim-buttons-container" class="hidden" style="margin-top: var(--space-lg);">
+            </div>
+        </div>
+    </div>
+    <div id="settings-screen" class="screen hidden">
+        <div class="header">
+            <button id="settings-back" class="back-btn" title="Back">←</button>
+            <h2>Settings</h2>
+            <div></div>
+        </div>
+        <div style="padding: var(--space-lg); display: flex; flex-direction: column; gap: var(--space-lg); flex: 1;">
+            <div class="H-Settings">
+                <div style="display: flex; flex-direction: column; gap: var(--space-md);">
+                    <div class="form-group">
+                        <label class="form-label">Theme</label>
+                        <div class="theme-toggle-container">
+                            <span class="theme-toggle-label">Dark</span>
+                            <label class="theme-toggle-switch">
+                                <input type="checkbox" id="theme-toggle">
+                                <span class="theme-toggle-slider"></span>
+                            </label>
+                            <span class="theme-toggle-label">Light</span>
+                        </div>
+                    </div>
+                    <div id="auto-lock-section" class="form-group">
+                        <label for="auto-lock-select" class="form-label">Auto Lock Timer</label>
+                        <select id="auto-lock-select" class="form-input">
+                            <option value="0">Never</option>
+                            <option value="300">5 minutes</option>
+                            <option value="900">15 minutes</option>
+                            <option value="1800">30 minutes</option>
+                            <option value="3600">1 hour</option>
+                        </select>
+                    </div>
+                    <button id="create-password-btn" class="btn hidden" style="justify-content: flex-start;">
+                        Create Password
+                    </button>
+                    <button id="change-password-btn" class="btn hidden" style="justify-content: flex-start;">
+                        Change Password
+                    </button>
+                    <button id="network-settings-btn" class="btn" style="justify-content: flex-start;">
+                        Network Settings
+                    </button>
+                    <button id="about-octra-btn" class="btn" style="justify-content: flex-start;">
+                        About Octra
+                    </button>
+                    <button id="lock-wallet-btn" class="btn" style="justify-content: flex-start; color: var(--warning-color);">
+                        Lock Wallet
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="network-settings-screen" class="screen hidden">
+        <div class="header">
+            <button id="network-settings-back" class="back-btn" title="Back">←</button>
+            <h2>Network Settings</h2>
+            <div></div>
+        </div>
+        <div style="padding: var(--space-lg); display: flex; flex-direction: column; gap: var(--space-lg); flex: 1;">
+            <div style="text-align: center; color: var(--text-secondary-dim); font-size: var(--font-size-sm); line-height: 1.5; margin-bottom: var(--space-lg);">
+                Select which network to connect to. Changing networks will refresh your wallet data.
+            </div>
+            <div class="balance-section">
+                <div id="network-options" class="network-options">
+                </div>
+            </div>
+            <div class="balance-section" style="border-top: 1px solid var(--glass-bg); padding-top: var(--space-lg);">
+                <div style="display: flex; flex-direction: column; gap: var(--space-sm);">
+                    <div class="network-info-item">
+                        <span class="network-info-label">Current Network:</span>
+                        <span id="current-network-name" class="network-info-value">Testnet</span>
+                    </div>
+                    <div class="network-info-item">
+                        <span class="network-info-label">RPC URL:</span>
+                        <span id="current-network-rpc" class="network-info-value">https://octra.network</span>
+                    </div>
+                    <div class="network-info-item">
+                        <span class="network-info-label">Explorer:</span>
+                        <span id="current-network-explorer" class="network-info-value">octrascan.io</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="custom-network-config" class="hidden">
+        <div class="balance-section">
+            <div style="text-align: center; color: var(--text-secondary-dim); font-size: var(--font-size-sm); margin-bottom: var(--space-lg);">
+                Configure your custom network settings
+            </div>
+            <form id="custom-network-form" style="display: flex; flex-direction: column; gap: var(--space-md);">
+                <div class="form-group">
+                    <label for="custom-network-name" class="form-label">Network Name</label>
+                    <input type="text" id="custom-network-name" class="form-input" placeholder="Custom Network" value="Custom Network">
+                </div>
+                <div class="form-group">
+                    <label for="custom-network-rpc" class="form-label">RPC URL</label>
+                    <input type="url" id="custom-network-rpc" class="form-input" placeholder="https://rpc-endpoint.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="custom-network-explorer" class="form-label">Explorer URL (Optional)</label>
+                    <input type="url" id="custom-network-explorer" class="form-input" placeholder="https://explorer.com">
+                </div>
+                <div style="display: flex; gap: var(--space-sm); margin-top: var(--space-md);">
+                    <button type="submit" class="submit-btn btn" style="flex: 1;">
+                        Save Network
+                    </button>
+                    <button type="button" id="cancel-custom-network" class="btn btn-secondary" style="flex: 1;">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="change-password-screen" class="screen hidden">
+        <div class="header">
+            <button id="back-to-settings-from-change-password" class="back-btn" title="Back">←</button>
+            <h2>Change Password</h2>
+            <div></div>
+        </div>
+        <div style="padding: var(--space-lg); display: flex; flex-direction: column; gap: var(--space-lg); flex: 1;">
+            <form id="change-password-form" style="display: flex; flex-direction: column; gap: var(--space-lg); flex: 1;">
+                <div class="form-group">
+                    <label for="current-password" class="form-label">Current Password</label>
+                    <input type="password" id="current-password" class="form-input" placeholder="Enter current password" required>
+                </div>
+                <div class="form-group">
+                    <label for="new-password" class="form-label">New Password</label>
+                    <input type="password" id="new-password" class="form-input" placeholder="Enter new password (leave empty to remove password protection)">
+                    <div id="new-strength-bar" class="strength-bar"></div>
+                    <div id="new-strength-text" class="strength-text"></div>
+                </div>
+                <div class="form-group">
+                    <label for="confirm-new-password" class="form-label">Confirm New Password</label>
+                    <input type="password" id="confirm-new-password" class="form-input" placeholder="Confirm new password (or leave empty to match above)">
+                </div>
+                <div style="background: var(--glass-bg-subtle); padding: var(--space-md); border-radius: var(--radius-md); margin: var(--space-md) 0; border: 1px solid var(--glass-bg);">
+                    <div style="font-size: var(--font-size-sm); color: var(--text-muted-dim); line-height: 1.4;">
+                        💡 Leave both new password fields empty to remove password protection entirely.
+                    </div>
+                </div>
+                <div style="margin-top: auto;">
+                    <button type="submit" id="change-password-confirm-btn" class="submit-btn btn" style="width: 100%;">
+                        Update Password
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="create-password-screen" class="screen hidden">
+        <div class="header">
+            <button id="create-password-back" class="back-btn" title="Back">←</button>
+            <h2>Create Password</h2>
+            <div></div>
+        </div>
+        <div style="padding: var(--space-lg); display: flex; flex-direction: column; gap: var(--space-lg); flex: 1;">
+            <div style="text-align: center; color: var(--text-secondary-dim); font-size: var(--font-size-sm); line-height: 1.5; margin-bottom: var(--space-lg);">
+                Create a password to add security features.
+            </div>
+            <form id="create-password-form" style="display: flex; flex-direction: column; gap: var(--space-lg); flex: 1;">
+                <div class="form-group">
+                    <label for="create-new-password" class="form-label">New Password</label>
+                    <input type="password" id="create-new-password" class="form-input" placeholder="Enter your new password" required>
+                    <div id="create-strength-bar" class="strength-bar"></div>
+                    <div id="create-strength-text" class="strength-text"></div>
+                </div>
+                <div class="form-group">
+                    <label for="create-confirm-password" class="form-label">Confirm Password</label>
+                    <input type="password" id="create-confirm-password" class="form-input" placeholder="Confirm your new password" required>
+                </div>
+                <div style="margin-top: auto;">
+                    <button type="submit" id="create-password-confirm-btn" class="btn btn-primary" style="width: 100%;">
+                        Create Password
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="password-setup-screen" class="screen hidden">
+        <div class="header">
+            <button id="password-setup-back" class="back-btn" title="Back">←</button>
+            <h2>Setup Password</h2>
+            <div></div>
+        </div>
+        <div style="padding: var(--space-lg); display: flex; flex-direction: column; gap: var(--space-lg); flex: 1;">
+            <div style="text-align: center; color: var(--text-secondary-dim); font-size: var(--font-size-sm); line-height: 1.5; margin-bottom: var(--space-lg);">
+                Create a password to secure your wallet, or skip for quick access. You can add password in wallet settings.
+            </div>
+            <form id="password-setup-form" style="display: flex; flex-direction: column; gap: var(--space-lg); flex: 1;">
+                <div class="form-group">
+                    <label for="setup-password" class="form-label">Password <span style="opacity: 0.6; font-weight: normal;">(Optional)</span></label>
+                    <input type="password" id="setup-password" class="form-input" placeholder="Enter your password or leave empty to skip">
+                    <div id="strength-bar" class="strength-bar"></div>
+                    <div id="strength-text" class="strength-text"></div>
+                </div>
+                <div class="form-group" id="confirm-password-group">
+                    <label for="confirm-password" class="form-label">Confirm Password</label>
+                    <input type="password" id="confirm-password" class="form-input" placeholder="Confirm your password">
+                </div>
+                <div style="margin-top: auto; display: flex; flex-direction: column; gap: var(--space-sm);">
+                    <button type="submit" id="setup-password-btn" class="btn btn-primary" style="width: 100%;">
+                        Set Password & Continue
+                    </button>
+                    <button type="button" id="skip-password-btn" class="btn btn-secondary" style="width: 100%;">
+                        Skip Password Setup
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+        <div id="password-unlock-screen" class="screen hidden">
+            <div class="header">
+                <div></div>
+                <h2>Unlock Wallet</h2>
+                <div></div>
+            </div>
+            <div style="padding: var(--space-lg); display: flex; flex-direction: column; gap: var(--space-xl); flex: 1; justify-content: center;">
+                <div class="balance-section" style="text-align: center;">
+                    <div style="width: 80px; height: 80px; margin: 0 auto var(--space-lg); background: var(--glass-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--glass-border-light);">
+                        <div style="width: 32px; height: 32px; border: 3px solid var(--text-secondary-dim); border-radius: 8px; position: relative;">
+                            <div style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 16px; height: 16px; border: 3px solid var(--text-secondary-dim); border-bottom: none; border-radius: 8px 8px 0 0;"></div>
+                        </div>
+                    </div>
+                    <h3 style="color: var(--text-primary); margin-bottom: var(--space-sm);">Wallet Locked</h3>
+                    <p style="color: var(--text-secondary); font-size: var(--font-size-sm);">
+                        Enter your password to unlock your wallet
+                    </p>
+                </div>
+                <form id="unlock-form" style="display: flex; flex-direction: column; gap: var(--space-lg);">
+                    <div class="form-group">
+                        <label for="unlock-password" class="form-label">Password</label>
+                        <input type="password" id="unlock-password" class="form-input" placeholder="Enter your password" required autofocus>
+                    </div>
+                    <button type="submit" id="unlock-wallet-btn" class="submit-btn btn" style="width: 100%;">
+                        Unlock Wallet
+                    </button>
+                    <button type="button" id="reset-wallet-from-unlock" class="btn btn-secondary" style="width: 100%; margin-top: var(--space-sm);">
+                        Reset Wallet
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div id="wallet-details-screen" class="screen hidden">
+            <div class="header">
+                <button id="wallet-details-back" class="back-btn" title="Back">←</button>
+                <h2>Wallet Created</h2>
+                <div></div>
+            </div>
+            <div style="padding: var(--space-lg); display: flex; flex-direction: column; gap: var(--space-lg); flex: 1;">
+                <div style="text-align: center; color: var(--qr-bg); margin-bottom: var(--space-lg);">
+                    <h3 id="wallet-details-name" style="color: var(--text-primary); margin-bottom: var(--space-sm);">Wallet Name</h3>
+                    <p style="color: var(--text-secondary); font-size: var(--font-size-sm);">
+                        Your wallet has been created successfully. Please save your recovery information.
+                    </p>
+                </div>
+                <div class="wallet-credentials-section">
+                    <div class="form-group">
+                        <label class="form-label">Wallet Address</label>
+                        <div class="address-display copyable" id="wallet-details-address" style="font-size: var(--font-size-xs);" title="Click to copy">
+                            Loading...
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Private Key (Base64)</label>
+                        <textarea id="wallet-details-private-key" class="form-textarea copyable" readonly style="font-family: monospace; font-size: var(--font-size-xs); cursor: pointer;" title="Click to copy private key">Loading...</textarea>
+                </div>
+                <div class="form-group">
+                        <label class="form-label">Recovery Phrase</label>
+                        <textarea id="wallet-details-mnemonic" class="form-textarea copyable" readonly style="font-family: monospace; font-size: var(--font-size-xs); cursor: pointer;" title="Click to copy recovery phrase">Loading...</textarea>
+                    </div>
+                </div>
+                <div style="margin-top: auto;">
+                    <button id="wallet-details-continue" class="submit-btn btn" style="width: 100%;">
+                        Continue Setup
+                    </button>
+                </div>
+                </div>
+            </div>
+        </div>
+    <div id="message-overlay" class="hidden">
+        <div id="message-content">
+            <div id="message-header">
+                <span id="message-title"></span>
+                <button id="message-close" class="close-btn" data-action="close-message">×</button>
+            </div>
+            <div id="message-body"></div>
+            </div>
+        </div>
+    <div id="loading-overlay" class="hidden">
+        <div id="loading-content">
+            <div class="loading-spinner"></div>
+            <div id="loading-text">Loading...</div>
+        </div>
+    </div>
+    <div id="error-display" class="hidden">
+        <div class="error-content">
+            <h2>Startup Error</h2>
+            <p id="error-message">The 0xio Wallet extension failed to start.</p>
+            <div class="error-actions">
+                <button id="reload-extension" data-action="reload">Reload Extension</button>
+                <button id="clear-and-reload" data-action="clear-and-reload">Clear Console & Retry</button>
+            </div>
+        </div>
+    </div>
+    <div id="floating-connection-indicator" class="floating-connection-indicator hidden">
+        <div id="connection-slide-handle" class="connection-slide-handle">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M8.59 16.59L13.17 12L8.59 7.41L10 6L16 12L10 18L8.59 16.59Z"/>
+            </svg>
+        </div>
+        <div class="connection-indicator-content">
+            <div class="site-info">
+                <div class="site-favicon-container">
+                    <img id="connection-site-favicon" class="site-favicon" src="" alt="Site icon" />
+                    <div id="connection-fallback-icon" class="fallback-favicon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12,2C13.1,2 14,2.9 14,4C14,5.1 13.1,6 12,6C10.9,6 10,5.1 10,4C10,2.9 10.9,2 12,2M21,9V7L15,1H5C3.89,1 3,1.89 3,3V21A2,2 0 0,0 5,23H19A2,2 0 0,0 21,21V9M19,9H14V4H19V9Z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="site-details">
+                    <div id="connection-site-title" class="site-title">No site detected</div>
+                    <div id="connection-site-url" class="site-url">chrome://</div>
+                </div>
+            </div>
+            <div class="connection-actions">
+                <div id="connection-status-dot" class="status-dot disconnected"></div>
+                <button id="connection-toggle-btn" class="connection-btn disconnected" disabled>
+                    <span id="connection-btn-text">Connect</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="libs/nacl.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/error-handler.js"></script>
+    <script src="js/dom-utils.js"></script>
+    <script src="js/utils/dialog.js"></script>
+    <script src="js/crypto.js"></script>
+    <script src="js/network.js"></script>
+    <script src="js/wallet-storage.js"></script>
+    <script src="js/wallet.js"></script>
+    <script src="js/password-manager.js"></script>
+    <script src="js/wallet-manager.js"></script>
+    <script src="js/wallet-service.js"></script>
+    <script src="js/contract-tasks.js"></script>
+    <script src="js/modules/module-loader.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="popup.js"></script>
+</body>
+</html> 
