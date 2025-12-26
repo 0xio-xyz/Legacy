@@ -35,6 +35,22 @@ A non-custodial cryptocurrency wallet browser extension for the Octra blockchain
 
 ---
 
+### [Recovery-Tools](./Recovery-Tools/)
+**Wallet Recovery Tool** • Web & CLI
+
+A secure wallet recovery tool to restore 0xio wallet credentials from a 12-word BIP39 seed phrase. Features:
+- 100% client-side cryptographic operations
+- Web interface (mobile-friendly) and Node.js CLI
+- Ed25519 keypair recovery using Octra derivation standards
+- Custom derivation path support
+
+**Status:** Archived\
+**Platform:** Browser, Node.js
+
+[View Documentation →](./Recovery-Tools/README.md)
+
+---
+
 ## Usage & Forking
 
 Since these projects are archived:
