@@ -1,0 +1,35 @@
+{
+  "name": "0xio-wallet-recovery-tool",
+  "version": "1.0.0",
+  "description": "Recover Octra wallet address and private key (Base64) from BIP39 seed phrase",
+  "main": "mnemonic-to-wallet.js",
+  "scripts": {
+    "recover": "node mnemonic-to-wallet.js",
+    "test": "node test-recovery.js"
+  },
+  "keywords": [
+    "0xio",
+    "octra",
+    "wallet",
+    "recovery",
+    "bip39",
+    "mnemonic",
+    "seed-phrase",
+    "Crypto"
+  ],
+  "author": "0xio Team",
+  "license": "MIT",
+  "dependencies": {
+    "tweetnacl": "^1.0.3"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/0xio-xyz/legacy-0xio-extension"
+  },
+  "bugs": {
+    "url": "https://github.com/0xio/legacy-0xio-extension/issues"
+  }
+}

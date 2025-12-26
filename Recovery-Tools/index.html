@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>0xio Recovery</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #050505;
+            --card-bg: #0a0a0a;
+            --border-color: #262626;
+            --text-primary: #ededed;
+            --text-secondary: #888888;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --danger: #ef4444;
+            --success: #10b981;
+            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', 'Courier New', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(59, 130, 246, 0.03) 0%, transparent 50%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 640px;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .header {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .logo {
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: 24px;
+            letter-spacing: -1px;
+            margin-bottom: 12px;
+            display: inline-block;
+            background: linear-gradient(to right, #fff, #888);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-content {
+            padding: 32px;
+        }
+
+        .alert-banner {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 8px;
+            margin-bottom: 24px;
+            font-size: 13px;
+            color: #fca5a5;
+        }
+
+        .alert-icon {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        .input-group {
+            margin-bottom: 24px;
+        }
+
+        .label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        textarea, input[type="text"], select {
+            width: 100%;
+            background: #000;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            padding: 16px;
+            transition: all 0.2s ease;
+            line-height: 1.6;
+        }
+
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            cursor: pointer;
+        }
+
+        .hidden {
+            display: none;
+        }
+        
+        .mt-2 { margin-top: 12px; }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        textarea:focus, input[type="text"]:focus, select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 1px var(--accent);
+        }
+
+        textarea::placeholder, input::placeholder {
+            color: #333;
+        }
+
+        .btn-primary {
+            width: 100%;
+            background: var(--text-primary);
+            color: var(--bg-color);
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: var(--font-main);
+        }
+
+        .btn-primary:hover {
+            background: #fff;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .output-section {
+            margin-top: 32px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 32px;
+            display: none;
+            animation: slideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .output-section.visible {
+            display: block;
+        }
+
+        .field-group {
+            margin-bottom: 20px;
+        }
+
+        .field-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .code-block {
+            background: #000;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 12px 16px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            transition: border-color 0.2s;
+        }
+
+        .code-block:hover {
+            border-color: #444;
+            color: var(--text-primary);
+        }
+
+        .code-content {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 100%;
+        }
+
+        .copy-icon-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .copy-icon-btn:hover {
+            background: #222;
+            color: #fff;
+        }
+
+        .status-msg {
+            text-align: center;
+            margin-top: 12px;
+            font-size: 13px;
+            height: 20px;
+        }
+
+        .error-msg {
+            color: var(--danger);
+            display: none;
+        }
+        
+        .loader {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--text-secondary);
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            display: inline-block;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        .footer {
+            margin-top: 24px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .footer a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.2s;
+        }
+
+        .footer a:hover {
+            color: var(--text-primary);
+            border-bottom-color: var(--text-primary);
+        }
+
+        @keyframes rotation {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 600px) {
+            .card-content {
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        <div class="header">
+            <div class="logo">0xio Recovery</div>
+            <p class="subtitle">Secure offline seed phrase conversion utility</p>
+        </div>
+
+        <div class="card">
+            <div class="card-content">
+                
+                <div class="alert-banner">
+                    <svg class="alert-icon" viewBox="0 0 24 24">
+                        <path d="M12 2L1 21h22M12 9v6m0 4v-2"/>
+                    </svg>
+                    <span><strong>Security Check:</strong> This tool runs locally. Your keys never leave your browser.</span>
+                </div>
+
+                <div class="input-group">
+                    <label class="label" for="mnemonic">12-Word Mnemonic Phrase</label>
+                    <textarea id="mnemonic" spellcheck="false" placeholder="enter word1 word2 word3..."></textarea>
+                </div>
+
+                <div class="input-group">
+                    <label class="label">Derivation Path</label>
+                    
+                    <select id="pathDropdown" onchange="handlePathChange()">
+                        <option value="">Default (Master Key)</option>
+                        <option value="m/345'/0'/0'/0'/0'/0'/0'/0">m/345'/0'/0'/0'/0'/0'/0'/0</option>
+                        <option value="custom">Custom Path...</option>
+                    </select>
+
+                    <input type="text" id="derivationPath" class="path-input hidden mt-2" 
+                           placeholder="e.g. m/44'/0'/0'" spellcheck="false">
+                </div>
+
+                <button class="btn-primary" onclick="recoverWallet()">
+                    <span id="btn-text">Compute Keys</span>
+                    <span id="btn-loader" class="loader" style="display:none"></span>
+                </button>
+
+                <div class="status-msg">
+                    <span id="error" class="error-msg">Invalid mnemonic phrase</span>
+                </div>
+
+                <div id="output" class="output-section">
+                    <div class="field-group">
+                        <label class="label">Wallet Address</label>
+                        <div class="code-block">
+                            <span id="address" class="code-content"></span>
+                            <button class="copy-icon-btn" onclick="copyToClipboard('address')" title="Copy">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="field-group">
+                        <label class="label">Private Key (Base64)</label>
+                        <div class="code-block">
+                            <span id="privateKey" class="code-content"></span>
+                            <button class="copy-icon-btn" onclick="copyToClipboard('privateKey')" title="Copy">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="field-group">
+                        <label class="label">Public Key (Base64)</label>
+                        <div class="code-block">
+                            <span id="publicKey" class="code-content"></span>
+                            <button class="copy-icon-btn" onclick="copyToClipboard('publicKey')" title="Copy">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="footer">
+            Open Source. The source code of this tool is available at <a href="https://github.com/0xio-xyz/Recovery-tools" target="_blank">github.com/0xio-xyz/Recovery-tools</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/tweetnacl@1.0.3/nacl.min.js"></script>
+
+    <script>
+        class WalletRecovery {
+            constructor() {
+                this.privateKey = null;
+                this.publicKey = null;
+                this.signingKey = null;
+            }
+
+            stringToBytes(str) { return new TextEncoder().encode(str); }
+
+            bytesToBase64(bytes) {
+                let binary = '';
+                for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+                return btoa(binary);
+            }
+
+            bytesToHex(bytes) {
+                return Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('');
+            }
+
+            hexToBytes(hex) {
+                const bytes = new Uint8Array(hex.length / 2);
+                for (let i = 0; i < hex.length; i += 2) bytes[i / 2] = parseInt(hex.slice(i, i + 2), 16);
+                return bytes;
+            }
+
+            async sha256(data) {
+                const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+                return new Uint8Array(hashBuffer);
+            }
+
+            sha256Sync(data) { return nacl.hash(data).slice(0, 32); }
+
+            bytesToBase58(bytes) {
+                const alphabet = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+                if (bytes.length === 0) return '';
+                let num = 0n;
+                for (let i = 0; i < bytes.length; i++) num = num * 256n + BigInt(bytes[i]);
+                let encoded = '';
+                while (num > 0n) {
+                    const remainder = num % 58n;
+                    num = num / 58n;
+                    encoded = alphabet[Number(remainder)] + encoded;
+                }
+                for (let i = 0; i < bytes.length && bytes[i] === 0; i++) encoded = '1' + encoded;
+                return encoded;
+            }
+
+            async hmacSha512(key, data) {
+                const cryptoKey = await crypto.subtle.importKey(
+                    'raw', key, { name: 'HMAC', hash: 'SHA-512' }, false, ['sign']
+                );
+                return new Uint8Array(await crypto.subtle.sign('HMAC', cryptoKey, data));
+            }
+
+            async mnemonicToSeed(mnemonic, passphrase = "") {
+                const mnemonicBuffer = this.stringToBytes(mnemonic);
+                const saltBuffer = this.stringToBytes("mnemonic" + passphrase);
+                const keyMaterial = await crypto.subtle.importKey(
+                    'raw', mnemonicBuffer, 'PBKDF2', false, ['deriveBits']
+                );
+                const derivedBits = await crypto.subtle.deriveBits(
+                    { name: 'PBKDF2', salt: saltBuffer, iterations: 2048, hash: 'SHA-512' },
+                    keyMaterial, 512
+                );
+                return new Uint8Array(derivedBits);
+            }
+
+            async deriveMasterKey(seed) {
+                const key = this.stringToBytes("Octra seed");
+                const hmac = await this.hmacSha512(key, seed);
+                return { privateKey: hmac.slice(0, 32), chainCode: hmac.slice(32, 64) };
+            }
+
+            async deriveChildKey(parentKey, parentChainCode, index) {
+                let data;
+                
+                if (index >= 0x80000000) {
+                    const dataLen = 1 + 32 + 4;
+                    data = new Uint8Array(dataLen);
+                    data[0] = 0x00;
+                    data.set(parentKey, 1);
+                    const view = new DataView(data.buffer);
+                    view.setUint32(33, index, false);
+                } else {
+                    const keyPair = nacl.sign.keyPair.fromSeed(parentKey);
+                    
+                    const dataLen = 32 + 4;
+                    data = new Uint8Array(dataLen);
+                    data.set(keyPair.publicKey, 0);
+                    const view = new DataView(data.buffer);
+                    view.setUint32(32, index, false); 
+                }
+
+                const hmac = await this.hmacSha512(parentChainCode, data);
+
+                return {
+                    privateKey: hmac.slice(0, 32),
+                    chainCode: hmac.slice(32, 64)
+                };
+            }
+
+            async derivePath(rootKey, path) {
+                if (!path || path === 'm' || path === '/' || path.trim() === '') {
+                    return rootKey;
+                }
+
+                const segments = path.toLowerCase().split('/');
+                let currentKey = rootKey;
+
+                for (const segment of segments) {
+                    if (segment === 'm' || segment === '') continue;
+
+                    const isHardened = segment.endsWith("'") || segment.endsWith("h");
+                    let index = parseInt(segment.replace(/['h]/, ''), 10);
+
+                    if (isNaN(index)) throw new Error(`Invalid path segment: ${segment}`);
+
+                    if (isHardened) {
+                        index += 0x80000000;
+                    }
+
+                    currentKey = await this.deriveChildKey(currentKey.privateKey, currentKey.chainCode, index);
+                }
+                return currentKey;
+            }
+
+            async deriveAddress(publicKey) {
+                try {
+                    const publicKeyBytes = this.base64ToBytes(publicKey);
+                    const hash = await this.sha256(publicKeyBytes);
+                    const base58Hash = this.bytesToBase58(hash);
+                    return 'oct' + base58Hash;
+                } catch (error) {
+                    throw new Error('Failed to derive address: ' + error.message);
+                }
+            }
+
+            base64ToBytes(base64) {
+                const binaryString = atob(base64);
+                const bytes = new Uint8Array(binaryString.length);
+                for (let i = 0; i < binaryString.length; i++) bytes[i] = binaryString.charCodeAt(i);
+                return bytes;
+            }
+
+            async recoverFromMnemonic(mnemonic, derivationPath) {
+                try {
+                    const normalizedMnemonic = mnemonic.trim().toLowerCase().replace(/\s+/g, ' ');
+                    const words = normalizedMnemonic.split(' ');
+                    if (words.length !== 12) throw new Error(`Invalid mnemonic: expected 12 words, got ${words.length}`);
+                    
+                    const seed = await this.mnemonicToSeed(normalizedMnemonic);
+                    let activeKey = await this.deriveMasterKey(seed);
+                    if (derivationPath) {
+                        activeKey = await this.derivePath(activeKey, derivationPath);
+                    }
+                    if (typeof nacl === 'undefined') throw new Error("Crypto library (nacl) not loaded");
+
+                    this.signingKey = nacl.sign.keyPair.fromSeed(activeKey.privateKey);
+                    
+                    const privateKeyRaw = activeKey.privateKey;
+                    const publicKeyRaw = this.signingKey.publicKey;
+                    const privateKeyB64 = this.bytesToBase64(privateKeyRaw);
+                    const publicKeyB64 = this.bytesToBase64(publicKeyRaw);
+                    const address = await this.deriveAddress(publicKeyB64);
+
+                    return {
+                        success: true,
+                        address: address,
+                        privateKey: privateKeyB64,
+                        publicKey: publicKeyB64
+                    };
+                } catch (error) {
+                    return { success: false, error: error.message };
+                }
+            }
+        }
+
+        const recovery = new WalletRecovery();
+        function handlePathChange() {
+            const dropdown = document.getElementById('pathDropdown');
+            const input = document.getElementById('derivationPath');
+            
+            if (dropdown.value === 'custom') {
+                input.classList.remove('hidden');
+                input.value = '';
+                input.focus();
+            } else {
+                input.classList.add('hidden');
+                input.value = dropdown.value;
+            }
+        }
+
+        async function recoverWallet() {
+            const mnemonicInput = document.getElementById('mnemonic');
+            const pathInput = document.getElementById('derivationPath');
+            const btnText = document.getElementById('btn-text');
+            const btnLoader = document.getElementById('btn-loader');
+            const errorEl = document.getElementById('error');
+            const outputEl = document.getElementById('output');
+            
+            
+            errorEl.style.display = 'none';
+            outputEl.classList.remove('visible');
+            btnText.style.display = 'none';
+            btnLoader.style.display = 'inline-block';
+
+            const mnemonic = mnemonicInput.value.trim();
+            const path = pathInput.value.trim();
+
+            if (!mnemonic) {
+                showError('Please enter your seed phrase');
+                resetBtn();
+                return;
+            }
+            setTimeout(async () => {
+                try {
+                    const result = await recovery.recoverFromMnemonic(mnemonic, path);
+                    resetBtn();
+
+                    if (result.success) {
+                        document.getElementById('address').textContent = result.address;
+                        document.getElementById('privateKey').textContent = result.privateKey;
+                        document.getElementById('publicKey').textContent = result.publicKey;
+                        outputEl.classList.add('visible');
+                    } else {
+                        showError(result.error || 'Failed to recover wallet');
+                    }
+                } catch (err) {
+                    resetBtn();
+                    showError('Unexpected error: ' + err.message);
+                }
+            }, 500);
+        }
+
+        function resetBtn() {
+            document.getElementById('btn-text').style.display = 'inline';
+            document.getElementById('btn-loader').style.display = 'none';
+        }
+
+        function showError(msg) {
+            const el = document.getElementById('error');
+            el.textContent = msg;
+            el.style.display = 'block';
+        }
+
+        async function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent;
+            
+            try {
+                await navigator.clipboard.writeText(text);
+                const btn = element.nextElementSibling;
+                const originalContent = btn.innerHTML;
+                btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="${getComputedStyle(document.documentElement).getPropertyValue('--success').trim()}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalContent;
+                }, 2000);
+            } catch (err) {
+                console.error('Failed to copy', err);
+            }
+        }
+        document.getElementById('mnemonic').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+                recoverWallet();
+            }
+        });
+    </script>
+</body>
+</html>
